@@ -64,9 +64,9 @@ def main():
     parser = argparse.ArgumentParser(description="Track bike ride data.")
     subparsers = parser.add_subparsers(dest="command", help="commands")
 
-    log_parser = subparsers.add_parser("log", help="Log a new ride with (mandatory) km and (optional) date and time [DD-MM-YYYY, hh].")
+    log_parser = subparsers.add_parser("log", help="Log a new ride with (mandatory) km (float) and (optional) date and time '[DD-MM-YY, hh]'.")
     log_parser.add_argument("kilometers", type=float, help="Distance of ride in km in float value.")
-    log_parser.add_argument("date_time", type=str, nargs="?", default=None, help="(Optional) Date and time of the ride [DD-MM-YYYY, hh] formated.")
+    log_parser.add_argument("date_time", type=str, nargs="?", default=None, help="(Optional) Date and time of the ride '[DD-MM-YY, hh]' formated.")
 
     all_rides_parser = subparsers.add_parser("all", help="Display all logged rides.")
 
