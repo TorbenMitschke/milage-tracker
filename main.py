@@ -2,13 +2,15 @@ import argparse
 import json
 from datetime import datetime
 
+rides_file = "rides/rides.json"
+
 def log_ride(km: float, date=None):
-    if not validate_date_time_format(date):
+    if not date != str and validate_date_time_format(date):
         print("Invalid date and time format. Please use 'DD-MM-YY, HH'.")
         return
 
     try:
-        with open("rides/rides.json", "r") as file:
+        with open(rides_file, "r") as file:
             rides = json.load(file)
     except FileNotFoundError:
         rides = []
@@ -21,7 +23,7 @@ def log_ride(km: float, date=None):
         date = datetime.strftime(date, "%d-%m-%y, %H")
         rides.append({"date": date, "km": km})
 
-    with open("rides/rides.json", "w") as file:
+    with open(rides_file, "w") as file:
         json.dump(rides, file, indent=4)
     print(f"On {date}:00, {km} km logged.")
 
@@ -35,7 +37,7 @@ def validate_date_time_format(date_time: str) -> bool:
 def get_all_rides() -> list:
     all_rides = []
     try:
-        with open("rides/rides.json", "r") as file:
+        with open(rides_file, "r") as file:
             rides = json.load(file)
             rides.sort(key=lambda ride: datetime.strptime(ride["date"], "%d-%m-%y, %H"))
             for ride in rides:
@@ -49,15 +51,15 @@ def get_all_rides() -> list:
 def get_total_km() -> float:
     total_km = 0.0
     try:
-        with open("rides/rides.json", "r") as file:
+        with open(rides_file, "r") as file:
             rides = json.load(file)
             for ride in rides:
                 total_km += ride["km"]
 
     except FileNotFoundError:
-        print("No rides logged yet.")
+        print("No rides logged yet!")
 
-    print(f"Total kilometers: {total_km}")
+    print(f"Total KM (odometer): {total_km}")
     return total_km
 
 def main():
